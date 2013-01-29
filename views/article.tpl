@@ -30,6 +30,10 @@
 		  	height: 250px;
 		  	}
 		  	
+		  .brand {
+		  	background-color: #9090ff;
+		  	color: black;
+		  	}
 		  
 		  
     	</style>
@@ -39,18 +43,30 @@
 	<body>
 
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/?pID={{pID}}">NEWS SOXREADER</a>
+         
+          
+          %if sect:
+          	<a class="brand" href="/?pID={{pID}}&sect={{sect}}">
+          %else:
+          	<a class="brand" href="/?pID={{pID}}">
+          %end
+                   	BlueReader&#0153;</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="/?pID={{pID}}">Home</a></li>
+              <li>
+              %if sect:
+              	<a href="/?pID={{pID}}&sect={{sect}}">
+              %else:
+              	<a href="/?pID={{pID}}">
+              %end
+              	Home</a></li>
               <li class="active"><a href="#about">Articles</a></li>
               <li><a href="#contact">Contact</a></li>
               
@@ -61,7 +77,9 @@
               <button type="submit" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->
+         </a>
         </div>
+        
       </div>
     </div>
 

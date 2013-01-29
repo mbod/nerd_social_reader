@@ -18,39 +18,52 @@ adom=ET.parse('articles.xml')
 
 
 
-@route('/') 
-def main():
-	pID = request.query.pID
-	if request.query.cnum:
-		cnum = request.query.cnum
-	else:
-		cnum = ''
-
-
+def getXML(xpath):
 	article=[]
-	
-	for art in adom.findall('article'):
+	for art in adom.findall(xpath):
 		art_children = art.getchildren()
 		subhead = art_children[1].text
-		subhead = subhead[0:subhead.find(' ',300)] + '...'
+		subhead = subhead[0:subhead.find(' ',700)] + '...'
+		
 		adict = {'headline': art_children[0].text,
 			 'subhead' : subhead,
 			'id': art.get('id')}
 
 		article.append(adict)
 
+	return article
 
-	return template('main', article=article, pID=pID)
+@route('/') 
+def main():
+	pID = request.query.pID
+
+	try:
+		sect = int(request.query.sect)
+	except:
+		sect=0
+
+
+	article=getXML('./article')
+	
+	if sect>0:
+		sarticle=getXML('./section[@num="%i"]/article' % sect)
+		return template('main', article=article, sarticle=sarticle, pID=pID, sect=sect)
+
+	else:
+		return template('main', article=article, sarticle=0, pID=pID, sect=sect)
 
 
 
 @route('/article/<aid>')
 def article(aid):
 
-	print aid
+	try:
+		sect = int(request.query.sect)
+	except:
+		sect=0
 
 	pID = request.query.pID
-	art=adom.find('article[@id="%s"]' % aid)
+	art=adom.find('.//article[@id="%s"]' % aid)
 
 	body=[]	
 	for p in art[1:]:
@@ -60,7 +73,7 @@ def article(aid):
 		 'aidx': aid }
 
 
-	return template('article', article=adict, pID=pID)
+	return template('article', article=adict, pID=pID, sect=sect)
 
 
 @route('/<task>/<filename:re:[^/]*\.(js|css|jpg|png|gif)>')
@@ -73,4 +86,4 @@ def static(task,filename):
 
 #application = bottle.default_app()
 
-run(port=1234)
+run(port=1122)
