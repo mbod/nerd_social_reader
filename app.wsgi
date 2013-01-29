@@ -5,9 +5,10 @@ import json
 
 
 
-#os.chdir(os.path.dirname(__file__))
+os.chdir(os.path.dirname(__file__))
 
-#sys.path.append('.')
+sys.path.append('.')
+
 
 import bottle 
 from bottle import get, post, response,request, run, route, template, static_file
@@ -76,6 +77,13 @@ def article(aid):
 	return template('article', article=adict, pID=pID, sect=sect)
 
 
+@route('/getnames')
+def getnames():
+	data = ['Frank', 'Josh', 'Kristin', 'Joe', 'Dave', 'Steve'];
+	data = json.dumps({'options': data})
+	return data
+
+
 @route('/<task>/<filename:re:[^/]*\.(js|css|jpg|png|gif)>')
 def static(task,filename):
 	return static_file(filename, root=task)
@@ -84,6 +92,6 @@ def static(task,filename):
 
 
 
-#application = bottle.default_app()
+application = bottle.default_app()
 
-run(port=1122)
+#run(port=1122)

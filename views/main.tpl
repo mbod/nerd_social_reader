@@ -5,8 +5,8 @@
 		
 		<meta charset="utf-8"/>
 		
-		<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<link href="/css/bootstrap-responsive.css" rel="stylesheet">		
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/bootstrap-responsive.css" rel="stylesheet">		
 		
 		<!--
 			technology 1
@@ -154,7 +154,7 @@
 
 	<!-- INSTRUCTIONS -->
 	
-	<div id="intro" class="row">
+	<div id="intro" class="row-fluid">
 			<div class="span8 offset3">
 				<h3>
 					Welcome to the University of Michigan <br/>
@@ -189,7 +189,7 @@
 	
 	
 		
-			<div class="row arow">
+			<div class="row-fluid arow">
 				%if sarticle==0:
 				<div id="acontainer" class="span10 offset2">
 				
@@ -264,8 +264,8 @@
 			health 2
 			science 3
 		-->
-		<div id="categories" class="row">
-			<div class="span3 offset1">
+		<div id="categories" class="row-fluid">
+			<div class="span3 offset2">
 				<a class="btn btn-danger cat-label" href="?pID={{ pID }}&sect=2" onclick="f.setSection(2)">HEALTH</a>
 			</div>
 			<div class="span3">
@@ -276,7 +276,7 @@
 			</div>
 		</div>
 		
-		<div id="complete" class="row">
+		<div id="complete" class="row-fluid">
 			<div class="span5 offset3">
 			<h3>Thank you for testing the BlueReader&#0153;</h3>
 			

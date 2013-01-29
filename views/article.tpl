@@ -6,8 +6,8 @@
 		
 		<meta charset="utf-8"/>
 		
-		<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<link href="/css/bootstrap-responsive.css" rel="stylesheet">			
+		<link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="../css/bootstrap-responsive.css" rel="stylesheet">			
 		
 		<style type="text/css">
 		  body {
@@ -53,18 +53,18 @@
          
           
           %if sect:
-          	<a class="brand" href="/?pID={{pID}}&sect={{sect}}">
+          	<a class="brand" href="/socread/?pID={{pID}}&sect={{sect}}">
           %else:
-          	<a class="brand" href="/?pID={{pID}}">
+          	<a class="brand" href="/socread/?pID={{pID}}">
           %end
                    	BlueReader&#0153;</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li>
               %if sect:
-              	<a href="/?pID={{pID}}&sect={{sect}}">
+              	<a href="/socread/?pID={{pID}}&sect={{sect}}">
               %else:
-              	<a href="/?pID={{pID}}">
+              	<a href="/socread/?pID={{pID}}">
               %end
               	Home</a></li>
               <li class="active"><a href="#about">Articles</a></li>
@@ -83,6 +83,8 @@
       </div>
     </div>
 
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	
 		
 		<div class="container">
 			
@@ -111,7 +113,26 @@
 					<br/>
 					<a class="btn btn-info" onclick="this.setAttribute('class','btn btn-success disabled')"><i class="icon-user"></i> Raymond</a>
 
+					 <br/>
+					<br/>
+
+					<form class="form-inline">
+						<div class="well">
+						  <input type="text" class="span2" id="search" name="search"
+							         data-provide="typeahead" data-items="4" />
+						</div>
+
+						<script>  
+						  $('#search').typeahead({
+							    ajax: { url: '/socread/getnames?pID={{pID}}', 
+							    triggerLength: 1 }
+						 });
+						</script>
+					</form>
+
 				</div>
+
+				
 
 			</div>
 		
