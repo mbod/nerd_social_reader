@@ -36,6 +36,13 @@
 		  	}
 		  
 		  
+		  .friend {
+		  	display: both;
+		  	min-width: 50%;
+		  	margin-bottom: 12px;
+		  	
+		  }
+		  
     	</style>
 		
 		
@@ -84,6 +91,7 @@
     </div>
 
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 	
 		
 		<div class="container">
@@ -98,37 +106,48 @@
 				
 				</div>
 				
-				<div class="span2" style="text-align: center">
+				<div class="span3" style="text-align: center">
 					<div class="well">Share this with some of your friends</div>
+					
+					<a class="btn btn-info friend" onclick="f.share(this,'Joe')"><i class="icon-user"></i> Joe</a>
+					
+					<a class="btn btn-info friend" onclick="f.share(this,'Mary')"><i class="icon-user"></i> Mary</a>
+					
+					<a class="btn btn-info friend" onclick="f.share(this,'Frank')"><i class="icon-user"></i> Frank</a>
+					
+					<a class="btn btn-info friend" onclick="f.share(this,'Raymond')"><i class="icon-user"></i> Raymond</a>
+
 					<br/>
 					
-					<a class="btn btn-info" onclick="this.setAttribute('class','btn btn-success disabled')"><i class="icon-user"></i> Joe</a>
-					<br/>
-					<br/>
-					<a class="btn btn-info" onclick="this.setAttribute('class','btn btn-success disabled')"><i class="icon-user"></i> Mary</a>
-					<br/>
-					<br/>
-					<a class="btn btn-info" onclick="this.setAttribute('class','btn btn-success disabled')"><i class="icon-user"></i> Frank</a>
-					<br/>
-					<br/>
-					<a class="btn btn-info" onclick="this.setAttribute('class','btn btn-success disabled')"><i class="icon-user"></i> Raymond</a>
-
-					 <br/>
-					<br/>
-
-					<form class="form-inline">
 						<div class="well">
-						  <input type="text" class="span2" id="search" name="search"
+						Search for other friends:
+						  <input type="text" class="span2 search-query" id="search" name="search"
 							         data-provide="typeahead" data-items="4" />
+						  <button onclick="f.addName($('#search').val())" title="Share"><i class="icon-share" ></i></button>
 						</div>
 
 						<script>  
+						  var names = ['Frank', 'Jessie', 'Mary', 'Paul', 'Raul', 'Emily', 'Josh', 'Joe'];
 						  $('#search').typeahead({
-							    ajax: { url: '/socread/getnames?pID={{pID}}', 
-							    triggerLength: 1 }
+							    minLength: 1,
+							    source: names
 						 });
 						</script>
-					</form>
+
+						<!--
+						<script>  
+						  $('#search').typeahead({
+							    minLength: 1,
+							    source: function(query, process) {
+							    	$.post('/getnames', { q: query, limit: 8 }, function(data) {
+							    		process(JSON.parse(data));
+							    	});
+							    }
+						 });
+						</script>
+						-->
+						<div id="shareList">
+						</div>
 
 				</div>
 
@@ -139,7 +158,7 @@
 		</div>
 
 		<script>
-		( function() {
+		var f = ( function() {
 		
 			var aidx = "{{ article['aidx'] }}";
 			var articles = JSON.parse(localStorage.getItem("{{ pID }}"));
@@ -149,7 +168,28 @@
 				articles.read.push(aidx);
 				localStorage.setItem("{{ pID }}", JSON.stringify(articles));
 			}
-		
+			
+			function addName(name) {
+			
+				if (names.indexOf(name)!=-1) {
+					var html ='<a class="btn btn-success disabled friend"><i class="icon-user"></i>' + name + '</a>';
+					
+					$('#shareList').prepend(html);
+					
+					names.splice(names.indexOf(name),1);
+					$('#search').val('');
+				}
+			}
+			
+			function share(elem, name) {
+				elem.setAttribute('class','btn btn-success disabled friend');
+				
+			}
+			
+			return {
+				addName: addName,
+				share: share
+			}
 		}).call('this');
 
 		</script>

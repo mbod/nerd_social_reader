@@ -78,7 +78,7 @@
 		  
 		  .read {
 		  	color: #a0a0a0;
-		    background-color: #f0f0f0;
+		    background-color: #d9edf7;
 		  }	
 		  
 		  .brand {
@@ -155,7 +155,7 @@
 	<!-- INSTRUCTIONS -->
 	
 	<div id="intro" class="row-fluid">
-			<div class="span8 offset3">
+			<div class="span6 offset3">
 				<h3>
 					Welcome to the University of Michigan <br/>
 					Social <i>BlueReader&#0153;</i> [Alpha Version 0.3].
@@ -182,7 +182,7 @@
 		
 		<div id="main" class="container">
 			
-			<div id="mbar" class="alert alert-success">
+			<div id="mbar" class="alert alert-info">
 			MOST POPULAR ARTICLES TODAY: 
 			There <span id="numToRead"></span> new article<span id="plural">s</span> for you to read!
 			</div>
