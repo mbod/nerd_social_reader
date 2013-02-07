@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>NERD Social Reader</title>
+		<title>University of Michigan - BlueReader&#0153;</title>
 		
 		<meta charset="utf-8"/>
 		
@@ -45,10 +45,8 @@
 		  
     	</style>
 		
-		
 	</head>
 	<body>
-
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -109,14 +107,11 @@
 				<div class="span3" style="text-align: center">
 					<div class="well">Share this with some of your friends</div>
 					
-					<a class="btn btn-info friend" onclick="f.share(this,'Joe')"><i class="icon-user"></i> Joe</a>
+					%for fshare in friends:
+						<a class="btn btn-info friend" onclick="f.share(this,'{{ fshare[0] }}')"><i class="icon-user"></i> {{ fshare[1] }}</a>
+					%end
 					
-					<a class="btn btn-info friend" onclick="f.share(this,'Mary')"><i class="icon-user"></i> Mary</a>
 					
-					<a class="btn btn-info friend" onclick="f.share(this,'Frank')"><i class="icon-user"></i> Frank</a>
-					
-					<a class="btn btn-info friend" onclick="f.share(this,'Raymond')"><i class="icon-user"></i> Raymond</a>
-
 					<br/>
 					
 						<div class="well">
@@ -127,25 +122,15 @@
 						</div>
 
 						<script>  
-						  var names = ['Frank', 'Jessie', 'Mary', 'Paul', 'Raul', 'Emily', 'Josh', 'Joe'];
+						  var names = {{![f[1].encode(errors='ignore') for f in fnames]}};
+						  var namesID = {{![f[0].encode(errors='ignore') for f in fnames]}};
+						  
 						  $('#search').typeahead({
 							    minLength: 1,
 							    source: names
 						 });
 						</script>
 
-						<!--
-						<script>  
-						  $('#search').typeahead({
-							    minLength: 1,
-							    source: function(query, process) {
-							    	$.post('/getnames', { q: query, limit: 8 }, function(data) {
-							    		process(JSON.parse(data));
-							    	});
-							    }
-						 });
-						</script>
-						-->
 						<div id="shareList">
 						</div>
 
@@ -176,13 +161,44 @@
 					
 					$('#shareList').prepend(html);
 					
-					names.splice(names.indexOf(name),1);
+					var nidx = names.indexOf(name);
+					
+					// use nidx to get id of share
+					
+
+					data = {'pID': '{{ pID }}',
+						    'aidx': aidx,
+						    'type': 'search',
+						    'friendID': namesID[nidx] };
+					
+					$.post('/logShare', JSON.stringify(data),
+						function(data) {
+							//$('#completion #code').empty().append(data);
+							console.log(data);
+					});
+					
+					
+					names.splice(nidx,1);
+					namesID.splice(nidx,1);
+					
 					$('#search').val('');
+					
 				}
 			}
 			
-			function share(elem, name) {
+			function share(elem, nameID) {
 				elem.setAttribute('class','btn btn-success disabled friend');
+				
+				data = {'pID': '{{ pID }}',
+						    'aidx': aidx,
+						    'type': 'share',
+						    'friendID': nameID };
+					
+					$.post('/logShare', JSON.stringify(data),
+						function(data) {
+							//$('#completion #code').empty().append(data);
+							console.log(data);
+					});
 				
 			}
 			

@@ -42,19 +42,19 @@
 		  	
 		  }
 		  
-		  .a1 {
+		  .a1, .a-1 {
 		  	top: 10px;
 		  	left: 10px;
 		  	z-index: 4;
 		  	}	
 		  	
-		  .a2 {
+		  .a2, .a0 {
 		  	top: 30px;
 		  	left: 30px;
 		  	z-index: 3;
 		  	}	
 		  	
-		  .a3 {
+		  .a3{
 		  	top: 50px;
 		  	left: 50px;
 		  	z-index: 2;
@@ -328,20 +328,9 @@
 					$('#main').css('display','none');
 					return;
 				} 
-				
-				
-				
-				
-				
-				
-				var aclass = shuffle(['a1', 'a2', 'a3', 'a4']);
+					
 				
 				var arts = $('#acontainer').children();
-				
-				for (var aidx=0; aidx<arts.length; aidx++) {
-					arts[aidx].setAttribute('class','abox '+aclass[aidx]);
-				}		
-			
 				
 				var articles = JSON.parse(localStorage.getItem('{{ pID }}'));
 				
@@ -351,11 +340,21 @@
 				
 				for (var aidx in articles.read) {
 					var article = articles.read[aidx];
-					$('#'+article).addClass('read');
+					$('#'+article).addClass('read a'+toRead);
 					$('#'+article+' a').addClass('disabled');
 					$('#'+article+' a').attr('href','#');
 					toRead--;
 				}
+				
+				var aclass=1;
+				for (var aidx=0; aidx<arts.length; aidx++) {
+					if (arts[aidx].getAttribute('class').indexOf('read')==-1) {
+						console.log(arts[aidx].getAttribute('class'));
+						arts[aidx].setAttribute('class','abox a'+aclass);
+						aclass++;
+					}
+				}				
+				
 			
 				if (toRead > 1) {
 					$('#numToRead').html('are ' + toRead);
